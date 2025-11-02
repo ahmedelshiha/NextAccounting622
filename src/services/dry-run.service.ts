@@ -160,7 +160,7 @@ export class DryRunService {
    * Analyze changes for a single user
    */
   private static async analyzeUserChange(
-    user: User,
+    user: Pick<User, 'id' | 'name' | 'email' | 'role' | 'tenantId'>,
     operationType: string,
     operationConfig: Record<string, any>,
     tenantId: string
