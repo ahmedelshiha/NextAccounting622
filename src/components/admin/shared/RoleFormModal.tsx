@@ -289,7 +289,7 @@ export const RoleFormModal = React.forwardRef<HTMLDivElement, RoleFormModalProps
 
         if (mode === 'create') {
           await AuditLoggingService.logAuditEvent({
-            actionType: AuditActionType.ROLE_CREATED,
+            action: AuditActionType.ROLE_CREATED,
             severity: AuditSeverity.INFO,
             userId,
             tenantId,
@@ -304,7 +304,7 @@ export const RoleFormModal = React.forwardRef<HTMLDivElement, RoleFormModalProps
           })
         } else {
           await AuditLoggingService.logAuditEvent({
-            actionType: AuditActionType.ROLE_UPDATED,
+            action: AuditActionType.ROLE_UPDATED,
             severity: AuditSeverity.INFO,
             userId,
             tenantId,
