@@ -70,6 +70,7 @@ export interface HealthLog {
  * - Data loading states
  * - Data errors
  * - Data refresh operations
+ * - Real-time synchronization
  */
 interface UserDataContextType {
   // Data State
@@ -85,6 +86,9 @@ interface UserDataContextType {
   refreshing: boolean
   exporting: boolean
   updating: boolean
+
+  // Real-time State
+  realtimeConnected: boolean
 
   // Error State
   errorMsg: string | null
