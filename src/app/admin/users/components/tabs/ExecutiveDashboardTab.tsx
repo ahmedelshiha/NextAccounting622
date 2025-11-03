@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense, useState, useCallback } from 'react'
+import React, { Suspense, useState, useCallback, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ExecutiveDashboard } from '../ExecutiveDashboard'
