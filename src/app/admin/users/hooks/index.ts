@@ -10,3 +10,6 @@ export { useDashboardMetrics, useDashboardRecommendations, useDashboardAnalytics
 export { useFilterUsers, type FilterOptions, type FilterConfig } from './useFilterUsers'
 export { useUnifiedUserService } from './useUnifiedUserService'
 export { useEntityForm, type FormMode, type ValidationRule, type FieldValidation, type EntityFormConfig } from './useEntityForm'
+export { useUserManagementRealtime, type RealtimeOptions } from './useUserManagementRealtime'
+export { useModalRealtime, type EntityType } from './useModalRealtime'
+export { useOptimisticUpdate, useBatchOptimisticUpdate, type OptimisticUpdateOptions } from './useOptimisticUpdate'
