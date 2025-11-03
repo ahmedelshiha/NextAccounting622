@@ -86,6 +86,8 @@ export default function ListPage<T extends { id?: string | number }>(props: List
     selectable = true,
     renderBulkActions,
     useAdvancedTable = false,
+    useVirtualization = true,
+    virtualizationThreshold = 100,
     page,
     pageSize,
     total,
