@@ -1,6 +1,6 @@
 'use client'
 
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -9,6 +9,9 @@ import { UserItem } from '../contexts/UsersContextProvider'
 import { UserActions } from './UserActions'
 import { usePermissions } from '@/lib/use-permissions'
 import { VirtualScroller } from '@/lib/virtual-scroller'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { Button } from '@/components/ui/button'
+import { List, Grid3x3 } from 'lucide-react'
 
 interface UsersTableProps {
   users: UserItem[]
