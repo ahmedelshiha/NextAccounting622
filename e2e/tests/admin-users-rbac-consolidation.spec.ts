@@ -23,19 +23,11 @@ test.describe('Phase 2: RbacTab Consolidation & New Tabs', () => {
     // Wait for main content to load
     await expect(page.getByRole('heading')).first().toBeVisible({ timeout: 5000 })
 
-    // Navigate to RBAC tab (via the main tab navigation)
-    const rbacTab = page.getByRole('tab', { name: /rbac|roles|permissions/i })
-    if (await rbacTab.isVisible({ timeout: 2000 })) {
-      await rbacTab.click()
-      await page.waitForTimeout(1000)
-    } else {
-      // If no RBAC tab visible at top level, it might be in admin settings
-      const adminTab = page.getByRole('tab', { name: /admin/i })
-      if (await adminTab.isVisible({ timeout: 2000 })) {
-        await adminTab.click()
-        await page.waitForTimeout(1000)
-      }
-    }
+    // Navigate to "Roles & Permissions" tab
+    const rbacTab = page.getByRole('tab', { name: /roles & permissions|roles|permissions/i })
+    await expect(rbacTab).toBeVisible({ timeout: 3000 })
+    await rbacTab.click()
+    await page.waitForTimeout(1500)
   })
 
   test.describe('RbacTab Navigation', () => {
