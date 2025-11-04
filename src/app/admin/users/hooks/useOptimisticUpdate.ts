@@ -3,7 +3,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { UserItem } from '../contexts/UserDataContext'
 
-interface OptimisticUpdateOptions<T> {
+export interface OptimisticUpdateOptions<T> {
   onSuccess?: (data: T) => void
   onError?: (error: Error, previousData: T) => void
 }
