@@ -76,6 +76,18 @@ export function ExecutiveDashboardTab({
     onRefresh?.()
   }
 
+  const handleApplySavedView = (viewName: string, roleFilter?: string) => {
+    setActiveSavedView(viewName)
+    setFilters(prev => ({
+      ...prev,
+      role: roleFilter ? (roleFilter as any) : undefined,
+      search: '',
+      status: undefined,
+      department: undefined,
+      dateRange: 'all'
+    }))
+  }
+
   // Determine if we have active filters
   const hasActiveFilters = Boolean(
     filters.search ||
