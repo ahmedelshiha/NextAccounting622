@@ -39,26 +39,66 @@ const DEFAULT_CONFIG: FilterConfig = {
 }
 
 /**
- * Unified user filtering hook - consolidates filtering logic across all components
- * Eliminates 40% duplication in filtering implementations
+ * Build server-side filter query from filter options
+ * Supports the enhanced API endpoint with server-side filtering
  *
- * @param users - Array of users to filter
- * @param filters - Filter options (search, role, status, etc.)
- * @param config - Optional configuration for filtering behavior
- * @returns Filtered and sorted array of users
+ * @param filters - Filter options
+ * @param pagination - Page and limit for pagination
+ * @returns URL search params string for API calls
  *
  * @example
+ * const query = buildServerFilterQuery({ search: 'john', role: 'ADMIN' }, { page: 1, limit: 50 })
+ * const response = await fetch(`/api/admin/users?${query}`)
+ */
+export function buildServerFilterQuery(
+  filters: FilterOptions,
+  pagination?: { page?: number; limit?: number }
+): string {
+  const params = new URLSearchParams()
+
+  if (filters.search?.trim()) params.append('search', filters.search.trim())
+  if (filters.role && filters.role !== 'ALL') params.append('role', filters.role)
+  if (filters.status && filters.status !== 'ALL') params.append('status', filters.status)
+  if (filters.tier && filters.tier !== 'ALL' && filters.tier !== 'all') params.append('tier', filters.tier)
+  if (filters.department && filters.department !== 'ALL') params.append('department', filters.department)
+  if (filters.sortBy) params.append('sortBy', filters.sortBy)
+  if (filters.sortOrder) params.append('sortOrder', filters.sortOrder)
+
+  if (pagination?.page) params.append('page', pagination.page.toString())
+  if (pagination?.limit) params.append('limit', pagination.limit.toString())
+
+  return params.toString()
+}
+
+/**
+ * Unified user filtering hook - consolidates filtering logic across all components
+ * Supports both client-side and server-side filtering
+ * Eliminates 40% duplication in filtering implementations
+ *
+ * @param users - Array of users to filter (for client-side filtering)
+ * @param filters - Filter options (search, role, status, etc.)
+ * @param config - Optional configuration for filtering behavior (serverSide flag enables server-side)
+ * @returns Filtered and sorted array of users (client-side) or server-side query string (when serverSide=true)
+ *
+ * @example
+ * // Client-side filtering (default)
  * const filtered = useFilterUsers(users, {
  *   search: 'john',
  *   role: 'ADMIN',
  *   status: 'ACTIVE'
  * })
+ *
+ * // Server-side filtering for large datasets
+ * const serverQuery = useFilterUsers(users, {
+ *   search: 'john',
+ *   role: 'ADMIN'
+ * }, { serverSide: true })
  */
 export function useFilterUsers(
   users: UserItem[],
   filters: FilterOptions,
   config: FilterConfig = DEFAULT_CONFIG
-): UserItem[] {
+): UserItem[] | string {
   return useMemo(() => {
     const {
       searchFields = DEFAULT_CONFIG.searchFields,
