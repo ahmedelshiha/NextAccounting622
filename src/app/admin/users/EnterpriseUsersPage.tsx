@@ -198,7 +198,7 @@ export function EnterpriseUsersPage() {
             )}
           >
             <Suspense fallback={<DashboardTabSkeleton />}>
-              <ExecutiveDashboardTab
+              <ExecutiveDashboardTabWrapper
                 users={context.users}
                 stats={context.stats}
                 isLoading={context.usersLoading || context.isLoading}
