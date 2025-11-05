@@ -7,6 +7,8 @@ export { WorkstationLayout, default as WorkstationLayoutComponent } from './Work
 export { WorkstationSidebar, default as WorkstationSidebarComponent } from './WorkstationSidebar'
 export { WorkstationMainContent, default as WorkstationMainContentComponent } from './WorkstationMainContent'
 export { WorkstationInsightsPanel, default as WorkstationInsightsPanelComponent } from './WorkstationInsightsPanel'
+export { QuickStatsCard } from './QuickStatsCard'
+export { SavedViewsButtons } from './SavedViewsButtons'
 
 export type {
   WorkstationLayoutProps,
