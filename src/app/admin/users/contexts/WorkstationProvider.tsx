@@ -97,6 +97,17 @@ export function WorkstationProvider({ children }: WorkstationProviderProps) {
     }
   }, [])
 
+  /**
+   * Apply bulk action to selected users
+   * TODO: Implement API call to execute bulk operations (Deferred to Phase 3)
+   * Supported bulk actions:
+   *   - 'changeRole': Assign new role (value: roleId)
+   *   - 'changeStatus': Update user status (value: status)
+   *   - 'assignDepartment': Move to department (value: departmentId)
+   *   - 'removeUsers': Deactivate/remove users
+   *   - 'reassignTasks': Reassign user's tasks (value: newOwnerId)
+   * Expected endpoint: POST /api/admin/users/bulk-actions
+   */
   const applyBulkAction = useCallback(async () => {
     if (!bulkActionType || selectedUserIds.size === 0) {
       console.warn('Bulk action requires action type and selected users')
@@ -105,7 +116,18 @@ export function WorkstationProvider({ children }: WorkstationProviderProps) {
 
     setIsApplyingBulkAction(true)
     try {
-      // TODO: Call API to apply bulk action
+      // TODO: Replace with actual API call
+      // const response = await fetch('/api/admin/users/bulk-actions', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({
+      //     action: bulkActionType,
+      //     value: bulkActionValue,
+      //     userIds: Array.from(selectedUserIds),
+      //   }),
+      // })
+      // const result = await response.json()
+
       console.log('Applying bulk action:', {
         action: bulkActionType,
         value: bulkActionValue,
