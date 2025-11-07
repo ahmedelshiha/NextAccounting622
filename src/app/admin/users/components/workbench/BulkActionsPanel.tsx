@@ -72,7 +72,7 @@ export default function BulkActionsPanel({
   }
 
   return (
-    <div className="admin-bulk-actions-panel">
+    <div className="admin-bulk-actions-panel" data-testid="bulk-actions-panel">
       <div className="admin-bulk-actions-content">
         {/* Left: Selected count and action selector */}
         <div className="admin-bulk-actions-left">
