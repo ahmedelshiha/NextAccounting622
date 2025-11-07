@@ -307,8 +307,9 @@ describe('BulkActionsPanel', () => {
         />
       )
 
-      expect(screen.getByRole('button', { name: /preview/i })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument()
+      expect(screen.getByTestId('preview-button')).toBeInTheDocument()
+      expect(screen.getByTestId('apply-button')).toBeInTheDocument()
+      expect(screen.getByTestId('clear-button')).toBeInTheDocument()
     })
 
     it('should have accessible comboboxes', () => {
