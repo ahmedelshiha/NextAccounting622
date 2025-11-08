@@ -82,8 +82,9 @@ export default function UsersTableWrapper({
   )
 
   const handleViewProfile = useCallback((user: UserItem) => {
-    setSelectedUser(user)
-  }, [])
+    context.setSelectedUser(user)
+    context.setProfileOpen(true)
+  }, [context])
 
   const handleRoleChange = useCallback(
     async (userId: string, newRole: UserItem['role']) => {
