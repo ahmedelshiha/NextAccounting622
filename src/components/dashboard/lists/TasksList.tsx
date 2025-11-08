@@ -44,6 +44,8 @@ export default function TasksList() {
   const [search, setSearch] = useState('')
   const [filters, setFilters] = useState<{ status?: string; assigneeId?: string; range?: string }>({})
   const [selectedIds, setSelectedIds] = useState<Array<string | number>>([])
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false)
+  const [selectedBulkStatus, setSelectedBulkStatus] = useState<string | null>(null)
 
   const now = new Date()
   const dateFrom = useMemo(() => {
