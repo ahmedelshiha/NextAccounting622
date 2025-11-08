@@ -110,12 +110,6 @@ const UserRow = memo(function UserRow({
 
       {/* Name */}
       <div className="flex items-center gap-3">
-        <img
-          src={user.avatar || 'https://via.placeholder.com/32'}
-          alt={user.name || 'User avatar'}
-          className="w-8 h-8 rounded-full bg-gray-200 object-cover"
-          loading="lazy"
-        />
         <div className="min-w-0">
           {isEditing ? (
             <input
