@@ -170,6 +170,14 @@ export default function AdminUsersLayout() {
           <ImportWizard onImportComplete={handleImportComplete} />
         </DialogContent>
       </Dialog>
+
+      {/* Create User Modal */}
+      <CreateUserModal
+        isOpen={showCreateUserModal}
+        onClose={() => setShowCreateUserModal(false)}
+        onSuccess={handleUserCreated}
+        mode="create"
+      />
     </div>
   )
 }
