@@ -177,6 +177,16 @@ export default function InlineUserProfile({ onBack }: { onBack: () => void }) {
               </div>
             </div>
           </div>
+          {!editMode && (
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => setEditMode(true)}
+                className="bg-blue-600 hover:bg-blue-700 text-white whitespace-nowrap"
+              >
+                Edit Profile
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Tabs (mobile secondary nav) */}
