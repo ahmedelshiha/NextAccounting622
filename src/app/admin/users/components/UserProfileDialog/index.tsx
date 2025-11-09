@@ -116,7 +116,7 @@ export const UserProfileDialog = memo(function UserProfileDialog({
                   <DropdownMenuItem onClick={() => alert('Reset password functionality coming soon')}>
                     Reset Password
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setActiveTab('settings')}>
+                  <DropdownMenuItem onClick={() => setActiveTab('permissions')}>
                     Manage Permissions
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
