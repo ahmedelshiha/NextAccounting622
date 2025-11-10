@@ -735,4 +735,53 @@
     background: #111827;
     border-color: #374151;
   }
+
+  .mobile-bottom-sheet {
+    background: #1f2937;
+    border-top-color: #374151;
+  }
+
+  .mobile-bottom-sheet-header {
+    background: #1f2937;
+    border-bottom-color: #374151;
+    color: #f3f4f6;
+  }
+
+  .mobile-bottom-sheet-title {
+    color: #f3f4f6;
+  }
+
+  .mobile-bottom-sheet-content {
+    color: #f3f4f6;
+  }
+
+  .mobile-quick-filter-item {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f3f4f6;
+  }
+
+  .mobile-quick-filter-item:active {
+    background: #4b5563;
+    border-color: #6b7280;
+  }
+
+  .mobile-recent-filter-button {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f3f4f6;
+  }
+
+  .mobile-recent-filter-button:active {
+    background: #4b5563;
+    border-color: #6b7280;
+  }
+
+  .mobile-custom-filter-button {
+    background: #1f55d4;
+  }
+
+  .mobile-custom-filter-button:active {
+    background: #1e40af;
+  }
 }
