@@ -87,6 +87,7 @@ export function UserDirectoryFilterBarEnhanced({
 }: UserDirectoryFilterBarEnhancedProps) {
   const [suggestionsOpen, setSuggestionsOpen] = useState(false)
   const [presetsOpen, setPresetsOpen] = useState(false)
+  const [historyOpen, setHistoryOpen] = useState(false)
 
   const { suggestions, isLoading } = useSearchSuggestions(
     allUsers,
