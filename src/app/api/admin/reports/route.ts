@@ -90,25 +90,32 @@ export const POST = withTenantContext(async (request: NextRequest) => {
       return NextResponse.json({ error: 'Report sections are required' }, { status: 400 })
     }
 
+    const reportData: any = {
+      id: crypto.randomUUID(),
+      name,
+      description: description || null,
+      format: format || 'table',
+      sections: sections || [],
+      pageSize: pageSize || 'A4',
+      orientation: orientation || 'portrait',
+      includeHeader: includeHeader ?? true,
+      includeFooter: includeFooter ?? true,
+      headerText: headerText || null,
+      footerText: footerText || null,
+      templateId: templateId || null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+
+    if (context.tenantId) {
+      reportData.tenantId = context.tenantId
+    }
+    if (context.userId) {
+      reportData.userId = context.userId
+    }
+
     const report = await prisma.report.create({
-      data: {
-        id: crypto.randomUUID(),
-        tenantId: context.tenantId ?? undefined,
-        userId: context.userId ?? undefined,
-        name,
-        description: description || null,
-        format: format || 'table',
-        sections: sections || [],
-        pageSize: pageSize || 'A4',
-        orientation: orientation || 'portrait',
-        includeHeader: includeHeader ?? true,
-        includeFooter: includeFooter ?? true,
-        headerText: headerText || null,
-        footerText: footerText || null,
-        templateId: templateId || null,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
+      data: reportData
     })
 
     return NextResponse.json({ success: true, report, message: 'Report created successfully' })
