@@ -314,6 +314,15 @@ export const PERMISSION_METADATA: Record<Permission, PermissionMetadata> = {
     icon: 'User',
     tags: ['users', 'view', 'rbac'],
   },
+  [PERMISSIONS.USERS_EXPORT]: {
+    key: PERMISSIONS.USERS_EXPORT,
+    label: 'Export Users',
+    description: 'Export user data to CSV, Excel, PDF, and other formats',
+    category: PermissionCategory.CONTENT,
+    risk: RiskLevel.LOW,
+    icon: 'Download',
+    tags: ['users', 'export', 'reports', 'data'],
+  },
 
   // Analytics & Reporting
   [PERMISSIONS.ANALYTICS_VIEW]: {
