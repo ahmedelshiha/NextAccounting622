@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
-import { X } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import {
   Collapsible,
   CollapsibleTrigger,
@@ -36,6 +36,7 @@ export default function AdminSidebar({
     analytics: true,
     activity: false
   })
+  const [isCollapsed, setIsCollapsed] = useState(false)
 
   // Generate role distribution data from users
   const roleDistributionData = useMemo(() => {
@@ -81,24 +82,43 @@ export default function AdminSidebar({
     }))
   }, [])
 
+  const toggleSidebarCollapse = useCallback(() => {
+    setIsCollapsed((prev) => !prev)
+  }, [])
+
   return (
-    <div className="admin-sidebar-wrapper">
-      {/* Header with close button (mobile) */}
+    <div className="admin-sidebar-wrapper" data-collapsed={isCollapsed}>
+      {/* Header with collapse/close buttons */}
       <div className="admin-sidebar-header">
-        <h3 className="text-lg font-semibold text-gray-900">Analytics</h3>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onClose}
-          className="lg:hidden"
-          aria-label="Close sidebar"
-        >
-          <X className="w-5 h-5" />
-        </Button>
+        <h3 className={`text-lg font-semibold text-gray-900 admin-sidebar-title ${isCollapsed ? 'hidden' : ''}`}>
+          Analytics
+        </h3>
+        <div className="admin-sidebar-header-actions">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleSidebarCollapse}
+            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-expanded={!isCollapsed}
+            title={isCollapsed ? 'Expand' : 'Collapse'}
+            className="admin-sidebar-toggle-btn"
+          >
+            {isCollapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onClose}
+            className="lg:hidden"
+            aria-label="Close sidebar"
+          >
+            <X className="w-5 h-5" />
+          </Button>
+        </div>
       </div>
 
       {/* Sidebar content */}
-      <div className="admin-sidebar-content">
+      <div className={`admin-sidebar-content ${isCollapsed ? 'hidden' : ''}`}>
         {/* Analytics Section */}
         <Collapsible open={expandedSections.analytics}>
           <CollapsibleTrigger
@@ -182,6 +202,11 @@ export default function AdminSidebar({
           height: 100%;
           padding: 1rem;
           gap: 0.5rem;
+          transition: padding 0.3s ease;
+        }
+
+        .admin-sidebar-wrapper[data-collapsed="true"] {
+          padding: 0.75rem 0.5rem;
         }
 
         .admin-sidebar-header {
@@ -191,6 +216,26 @@ export default function AdminSidebar({
           padding-bottom: 0.75rem;
           border-bottom: 1px solid #e5e7eb;
           gap: 0.5rem;
+          transition: padding-bottom 0.3s ease;
+        }
+
+        .admin-sidebar-wrapper[data-collapsed="true"] .admin-sidebar-header {
+          padding-bottom: 0.5rem;
+          border-bottom: none;
+        }
+
+        .admin-sidebar-title {
+          transition: opacity 0.3s ease;
+        }
+
+        .admin-sidebar-header-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+        }
+
+        .admin-sidebar-toggle-btn {
+          transition: transform 0.3s ease;
         }
 
         .admin-sidebar-content {
@@ -199,6 +244,11 @@ export default function AdminSidebar({
           gap: 0.75rem;
           flex: 1;
           overflow-y: auto;
+          transition: opacity 0.3s ease;
+        }
+
+        .admin-sidebar-content.hidden {
+          display: none;
         }
 
         .admin-sidebar-trigger {

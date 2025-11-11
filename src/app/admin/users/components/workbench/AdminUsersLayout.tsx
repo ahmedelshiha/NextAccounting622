@@ -181,7 +181,6 @@ export default function AdminUsersLayout() {
         <aside className={`admin-workbench-sidebar ${sidebarOpen ? 'open' : 'closed'}`} data-testid="admin-sidebar">
           {isBuilderEnabled ? (
             <BuilderSidebarSlot
-              onFilterChange={setFilters}
               onClose={() => setSidebarOpen(false)}
             />
           ) : (
