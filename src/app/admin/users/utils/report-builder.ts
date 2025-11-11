@@ -441,7 +441,7 @@ function generateChartSectionHTML(section: ReportSection, data: ReportData): str
 function formatSummaryValue(value: any): string {
   if (value === null || value === undefined) return '0'
   if (typeof value === 'number') return value.toLocaleString()
-  return escapeHTML(String(value))
+  return escapeHTML(String(value || ''))
 }
 
 /**
@@ -576,7 +576,7 @@ export function applyGrouping(data: any[], grouping?: ReportGrouping[]): Record<
   const groupColumn = grouping[0].column
 
   data.forEach(row => {
-    const key = String(row[groupColumn])
+    const key = String(row[groupColumn] || '')
     if (!grouped[key]) {
       grouped[key] = []
     }
