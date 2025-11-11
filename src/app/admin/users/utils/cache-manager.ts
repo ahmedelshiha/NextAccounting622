@@ -93,7 +93,9 @@ export class CacheManager {
     // Enforce max cache size (FIFO eviction)
     if (this.cache.size > this.config.maxSize) {
       const firstKey = this.cache.keys().next().value
-      this.cache.delete(firstKey)
+      if (firstKey !== undefined) {
+        this.cache.delete(firstKey)
+      }
     }
 
     // Persist if configured
