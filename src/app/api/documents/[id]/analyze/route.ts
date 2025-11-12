@@ -1,8 +1,7 @@
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { NextRequest, NextResponse } from 'next/server'
+import { withTenantContext } from '@/lib/api-wrapper'
+import { requireTenantContext } from '@/lib/tenant-utils'
 import { prisma } from '@/lib/prisma'
-import { getTenantFromRequest } from '@/lib/tenant'
 import { logAuditSafe } from '@/lib/observability-helpers'
 import { ocrService } from '@/lib/ocr/ocr-service'
 import { z } from 'zod'
@@ -13,18 +12,17 @@ const AnalysisRequestSchema = z.object({
 
 type AnalysisType = z.infer<typeof AnalysisRequestSchema>['analysisType']
 
-export async function POST(
+async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const { userId, tenantId } = requireTenantContext()
 
-    if (!session?.user?.id) {
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const tenantId = await getTenantFromRequest(request)
     if (!tenantId) {
       return NextResponse.json({ error: 'Tenant context required' }, { status: 400 })
     }
@@ -181,18 +179,17 @@ export async function POST(
   }
 }
 
-export async function GET(
+async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const { userId, tenantId } = requireTenantContext()
 
-    if (!session?.user?.id) {
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const tenantId = await getTenantFromRequest(request)
     if (!tenantId) {
       return NextResponse.json({ error: 'Tenant context required' }, { status: 400 })
     }
@@ -236,3 +233,8 @@ export async function GET(
     )
   }
 }
+
+export const postHandler = withTenantContext(POST, { requireAuth: true })
+export const getHandler = withTenantContext(GET, { requireAuth: true })
+
+export { postHandler as POST, getHandler as GET }
