@@ -3,7 +3,6 @@ import { withTenantContext } from '@/lib/api-wrapper'
 import { requireTenantContext } from '@/lib/tenant-utils'
 import prisma from '@/lib/prisma'
 import { logAuditSafe } from '@/lib/observability-helpers'
-import { getSession } from 'next-auth/react'
 
 async function GET(
   request: NextRequest,
