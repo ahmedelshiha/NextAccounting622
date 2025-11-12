@@ -149,28 +149,28 @@ export function RbacTab() {
   }, [roleModal.mode, closeRoleModal, loadRoles])
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-4 sm:space-y-6 p-4 sm:p-6">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="roles">Roles</TabsTrigger>
-          <TabsTrigger value="hierarchy">Hierarchy</TabsTrigger>
-          <TabsTrigger value="testing">Test Access</TabsTrigger>
-          <TabsTrigger value="conflicts">Conflicts</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-6">
+          <TabsTrigger value="roles" className="text-xs sm:text-sm">Roles</TabsTrigger>
+          <TabsTrigger value="hierarchy" className="text-xs sm:text-sm">Hierarchy</TabsTrigger>
+          <TabsTrigger value="testing" className="text-xs sm:text-sm">Test Access</TabsTrigger>
+          <TabsTrigger value="conflicts" className="text-xs sm:text-sm">Conflicts</TabsTrigger>
         </TabsList>
 
         {/* Roles Tab - Role Management */}
-        <TabsContent value="roles" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value="roles" className="space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Left Column: Role Management */}
             <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Roles</h3>
-                  <p className="text-sm text-gray-500 mt-1">Create and manage roles</p>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900">Roles</h3>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-1">Create and manage roles</p>
                 </div>
-                <Button onClick={() => openRoleModal()} className="gap-2">
+                <Button onClick={() => openRoleModal()} className="gap-2 flex-shrink-0 w-full sm:w-auto text-sm">
                   <Plus className="w-4 h-4" />
-                  New Role
+                  <span className="sm:inline">New Role</span>
                 </Button>
               </div>
 
@@ -186,24 +186,24 @@ export function RbacTab() {
                   </Button>
                 </div>
               ) : (
-                <div className="space-y-2 max-h-[600px] overflow-y-auto">
+                <div className="space-y-2 max-h-[400px] sm:max-h-[600px] overflow-y-auto">
                   {roles.map((role) => (
-                    <div key={role.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <h4 className="font-medium text-gray-900">{role.name}</h4>
-                          <p className="text-sm text-gray-500 mt-1">{role.description}</p>
+                    <div key={role.id} className="border rounded-lg p-3 sm:p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-sm sm:text-base text-gray-900 truncate">{role.name}</h4>
+                          <p className="text-xs sm:text-sm text-gray-500 mt-1 line-clamp-2">{role.description}</p>
                           <div className="mt-2 flex items-center gap-2">
-                            <span className="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
+                            <span className="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded whitespace-nowrap">
                               {role.permissions?.length || 0} permissions
                             </span>
                           </div>
                         </div>
-                        <div className="flex gap-1">
-                          <Button variant="ghost" size="sm" onClick={() => openRoleModal(role)}>
+                        <div className="flex gap-1 flex-shrink-0">
+                          <Button variant="ghost" size="sm" onClick={() => openRoleModal(role)} title="Edit role">
                             <Edit3 className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" onClick={() => handleDeleteRole(role.id)}>
+                          <Button variant="ghost" size="sm" onClick={() => handleDeleteRole(role.id)} title="Delete role">
                             <Trash2 className="w-4 h-4 text-red-500" />
                           </Button>
                         </div>
@@ -214,14 +214,14 @@ export function RbacTab() {
               )}
             </div>
 
-            {/* Right Column: Permission Viewers */}
-            <div className="space-y-4">
+            {/* Right Column: Permission Viewers - Hidden on mobile, shown on tablet+ */}
+            <div className="hidden md:block space-y-4">
               <RolePermissionsViewer />
             </div>
           </div>
 
           {/* Bottom: User Permissions Inspector */}
-          <div className="border-t pt-6">
+          <div className="border-t pt-4 sm:pt-6">
             <UserPermissionsInspector />
           </div>
         </TabsContent>

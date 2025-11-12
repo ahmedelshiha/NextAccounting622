@@ -74,7 +74,7 @@ export const TeamMemberFormModal = React.forwardRef<HTMLDivElement, TeamMemberFo
 
     const formConfig: EntityFormConfig = {
       endpoint: (mode, id) =>
-        mode === 'create' ? '/api/admin/entities/team-members' : `/api/admin/entities/team-members/${id}`,
+        mode === 'create' ? '/api/admin/users' : `/api/admin/users/${id}`,
       method: (mode) => (mode === 'create' ? 'POST' : 'PATCH'),
       successMessage: (mode) =>
         mode === 'create' ? 'Team member added successfully' : 'Team member updated successfully',
@@ -110,34 +110,35 @@ export const TeamMemberFormModal = React.forwardRef<HTMLDivElement, TeamMemberFo
 
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent ref={ref} className="max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{title || defaultTitle}</DialogTitle>
-            <DialogDescription>{description || defaultDescription}</DialogDescription>
+        <DialogContent ref={ref} className="w-[95vw] max-w-lg max-h-[90vh] overflow-y-auto p-4 sm:p-6">
+          <DialogHeader className="mb-4">
+            <DialogTitle className="text-lg sm:text-xl">{title || defaultTitle}</DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm">{description || defaultDescription}</DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {form.error && (
               <div className="p-3 rounded-lg bg-red-50 border border-red-200 flex gap-2">
                 <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-red-700">{form.error}</p>
+                <p className="text-xs sm:text-sm text-red-700">{form.error}</p>
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="name">Name *</Label>
+              <Label htmlFor="name" className="text-xs sm:text-sm">Name *</Label>
               <Input
                 id="name"
                 placeholder="Team member name"
                 value={form.formData.name}
                 onChange={(e) => form.handleChange('name', e.target.value)}
                 disabled={form.isSubmitting}
+                className="text-sm"
               />
-              {form.fieldErrors.name && <p className="text-sm text-red-600">{form.fieldErrors.name}</p>}
+              {form.fieldErrors.name && <p className="text-xs sm:text-sm text-red-600">{form.fieldErrors.name}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email *</Label>
+              <Label htmlFor="email" className="text-xs sm:text-sm">Email *</Label>
               <Input
                 id="email"
                 type="email"
@@ -145,8 +146,9 @@ export const TeamMemberFormModal = React.forwardRef<HTMLDivElement, TeamMemberFo
                 value={form.formData.email}
                 onChange={(e) => form.handleChange('email', e.target.value)}
                 disabled={form.isSubmitting}
+                className="text-sm"
               />
-              {form.fieldErrors.email && <p className="text-sm text-red-600">{form.fieldErrors.email}</p>}
+              {form.fieldErrors.email && <p className="text-xs sm:text-sm text-red-600">{form.fieldErrors.email}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-3">

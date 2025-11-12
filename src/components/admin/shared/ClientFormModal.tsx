@@ -72,7 +72,7 @@ export const ClientFormModal = React.forwardRef<HTMLDivElement, ClientFormModalP
 
     const formConfig: EntityFormConfig = {
       endpoint: (mode, id) =>
-        mode === 'create' ? '/api/admin/entities/clients' : `/api/admin/entities/clients/${id}`,
+        mode === 'create' ? '/api/admin/users' : `/api/admin/users/${id}`,
       method: (mode) => (mode === 'create' ? 'POST' : 'PATCH'),
       successMessage: (mode) =>
         mode === 'create' ? 'Client created successfully' : 'Client updated successfully',
@@ -108,10 +108,10 @@ export const ClientFormModal = React.forwardRef<HTMLDivElement, ClientFormModalP
 
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent ref={ref} className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle>{title || defaultTitle}</DialogTitle>
-            <DialogDescription>{description || defaultDescription}</DialogDescription>
+        <DialogContent ref={ref} className="w-[95vw] max-w-lg max-h-[90vh] overflow-y-auto p-4 sm:p-6">
+          <DialogHeader className="mb-4">
+            <DialogTitle className="text-lg sm:text-xl">{title || defaultTitle}</DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm">{description || defaultDescription}</DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -123,19 +123,20 @@ export const ClientFormModal = React.forwardRef<HTMLDivElement, ClientFormModalP
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="name">Name *</Label>
+              <Label htmlFor="name" className="text-xs sm:text-sm">Name *</Label>
               <Input
                 id="name"
                 placeholder="Client name"
                 value={form.formData.name}
                 onChange={(e) => form.handleChange('name', e.target.value)}
                 disabled={form.isSubmitting}
+                className="text-sm"
               />
-              {form.fieldErrors.name && <p className="text-sm text-red-600">{form.fieldErrors.name}</p>}
+              {form.fieldErrors.name && <p className="text-xs sm:text-sm text-red-600">{form.fieldErrors.name}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email *</Label>
+              <Label htmlFor="email" className="text-xs sm:text-sm">Email *</Label>
               <Input
                 id="email"
                 type="email"
@@ -143,39 +144,42 @@ export const ClientFormModal = React.forwardRef<HTMLDivElement, ClientFormModalP
                 value={form.formData.email}
                 onChange={(e) => form.handleChange('email', e.target.value)}
                 disabled={form.isSubmitting}
+                className="text-sm"
               />
-              {form.fieldErrors.email && <p className="text-sm text-red-600">{form.fieldErrors.email}</p>}
+              {form.fieldErrors.email && <p className="text-xs sm:text-sm text-red-600">{form.fieldErrors.email}</p>}
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone</Label>
+                <Label htmlFor="phone" className="text-xs sm:text-sm">Phone</Label>
                 <Input
                   id="phone"
                   placeholder="Phone number"
                   value={form.formData.phone || ''}
                   onChange={(e) => form.handleChange('phone', e.target.value)}
                   disabled={form.isSubmitting}
+                  className="text-sm"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="company">Company</Label>
+                <Label htmlFor="company" className="text-xs sm:text-sm">Company</Label>
                 <Input
                   id="company"
                   placeholder="Company name"
                   value={form.formData.company || ''}
                   onChange={(e) => form.handleChange('company', e.target.value)}
                   disabled={form.isSubmitting}
+                  className="text-sm"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="tier">Tier</Label>
+                <Label htmlFor="tier" className="text-xs sm:text-sm">Tier</Label>
                 <Select value={form.formData.tier} onValueChange={(value) => form.handleChange('tier', value)}>
-                  <SelectTrigger id="tier">
+                  <SelectTrigger id="tier" className="text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -187,9 +191,9 @@ export const ClientFormModal = React.forwardRef<HTMLDivElement, ClientFormModalP
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="status" className="text-xs sm:text-sm">Status</Label>
                 <Select value={form.formData.status} onValueChange={(value) => form.handleChange('status', value)}>
-                  <SelectTrigger id="status">
+                  <SelectTrigger id="status" className="text-sm">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -202,42 +206,45 @@ export const ClientFormModal = React.forwardRef<HTMLDivElement, ClientFormModalP
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="address">Address</Label>
+              <Label htmlFor="address" className="text-xs sm:text-sm">Address</Label>
               <Input
                 id="address"
                 placeholder="Street address"
                 value={form.formData.address || ''}
                 onChange={(e) => form.handleChange('address', e.target.value)}
                 disabled={form.isSubmitting}
+                className="text-sm"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="city">City</Label>
+                <Label htmlFor="city" className="text-xs sm:text-sm">City</Label>
                 <Input
                   id="city"
                   placeholder="City"
                   value={form.formData.city || ''}
                   onChange={(e) => form.handleChange('city', e.target.value)}
                   disabled={form.isSubmitting}
+                  className="text-sm"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="country">Country</Label>
+                <Label htmlFor="country" className="text-xs sm:text-sm">Country</Label>
                 <Input
                   id="country"
                   placeholder="Country"
                   value={form.formData.country || ''}
                   onChange={(e) => form.handleChange('country', e.target.value)}
                   disabled={form.isSubmitting}
+                  className="text-sm"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="notes">Notes</Label>
+              <Label htmlFor="notes" className="text-xs sm:text-sm">Notes</Label>
               <Textarea
                 id="notes"
                 placeholder="Additional notes"
@@ -245,6 +252,7 @@ export const ClientFormModal = React.forwardRef<HTMLDivElement, ClientFormModalP
                 onChange={(e) => form.handleChange('notes', e.target.value)}
                 disabled={form.isSubmitting}
                 rows={3}
+                className="text-sm"
               />
             </div>
 

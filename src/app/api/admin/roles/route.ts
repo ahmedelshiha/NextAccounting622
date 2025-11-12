@@ -4,6 +4,7 @@ import { withTenantContext } from '@/lib/api-wrapper'
 import { requireTenantContext } from '@/lib/tenant-utils'
 import { hasPermission, PERMISSIONS } from '@/lib/permissions'
 import { AuditLoggingService, AuditActionType, AuditSeverity } from '@/services/audit-logging.service'
+import { realtimeService } from '@/lib/realtime-enhanced'
 
 export const GET = withTenantContext(async () => {
   try {
@@ -94,6 +95,17 @@ export const POST = withTenantContext(async (req: Request) => {
         createdAt: true,
       },
     })
+
+    // Emit real-time event for role creation
+    try {
+      realtimeService.emitRoleUpdated(newRole.id, {
+        action: 'created',
+        roleName: newRole.name,
+        permissions: newRole.permissions
+      })
+    } catch (err) {
+      console.error('Failed to emit role created event:', err)
+    }
 
     // Log role creation
     await AuditLoggingService.logAuditEvent({

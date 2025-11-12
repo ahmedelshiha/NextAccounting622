@@ -4,6 +4,7 @@ import { withTenantContext } from '@/lib/api-wrapper'
 import { requireTenantContext } from '@/lib/tenant-utils'
 import { hasPermission, PERMISSIONS } from '@/lib/permissions'
 import { AuditLoggingService, AuditActionType, AuditSeverity } from '@/services/audit-logging.service'
+import { realtimeService } from '@/lib/realtime-enhanced'
 
 export const GET = withTenantContext(async (req: Request, { params }: { params: { id: string } }) => {
   try {
@@ -104,6 +105,17 @@ export const PATCH = withTenantContext(async (req: Request, { params }: { params
       },
     })
 
+    // Emit real-time event for role update
+    try {
+      realtimeService.emitRoleUpdated(params.id, {
+        action: 'updated',
+        roleName: updated.name,
+        permissions: updated.permissions
+      })
+    } catch (err) {
+      console.error('Failed to emit role updated event:', err)
+    }
+
     // Log role update
     const changes: Record<string, any> = {}
     if (name) changes.name = { from: targetRole.name, to: name }
@@ -160,6 +172,17 @@ export const DELETE = withTenantContext(async (req: Request, { params }: { param
     await prisma.customRole.delete({
       where: { id: params.id },
     })
+
+    // Emit real-time event for role deletion
+    try {
+      realtimeService.emitRoleUpdated(params.id, {
+        action: 'deleted',
+        roleName: targetRole.name,
+        permissions: targetRole.permissions
+      })
+    } catch (err) {
+      console.error('Failed to emit role deleted event:', err)
+    }
 
     // Log role deletion
     await AuditLoggingService.logAuditEvent({

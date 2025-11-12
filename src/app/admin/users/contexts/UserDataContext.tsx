@@ -1,7 +1,8 @@
 'use client'
 
-import React, { createContext, useContext, useState, useCallback, useMemo, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useCallback, useMemo, ReactNode, useEffect } from 'react'
 import { useUnifiedUserService } from '../hooks/useUnifiedUserService'
+import { useUserManagementRealtime } from '../hooks/useUserManagementRealtime'
 
 // Types
 export interface UserStats {
@@ -28,7 +29,7 @@ export interface UserItem {
   id: string
   name: string | null
   email: string
-  role: 'ADMIN' | 'TEAM_MEMBER' | 'TEAM_LEAD' | 'STAFF' | 'CLIENT'
+  role: 'ADMIN' | 'TEAM_MEMBER' | 'TEAM_LEAD' | 'STAFF' | 'CLIENT' | 'VIEWER'
   createdAt: string
   lastLoginAt?: string
   isActive?: boolean
@@ -69,6 +70,7 @@ export interface HealthLog {
  * - Data loading states
  * - Data errors
  * - Data refresh operations
+ * - Real-time synchronization
  */
 interface UserDataContextType {
   // Data State
@@ -84,6 +86,9 @@ interface UserDataContextType {
   refreshing: boolean
   exporting: boolean
   updating: boolean
+
+  // Real-time State
+  realtimeConnected: boolean
 
   // Error State
   errorMsg: string | null
@@ -139,6 +144,9 @@ export function UserDataContextProvider({
   const [refreshing, setRefreshing] = useState(false)
   const [exporting, setExporting] = useState(false)
   const [updating, setUpdating] = useState(false)
+
+  // Real-time state
+  const [realtimeConnected, setRealtimeConnected] = useState(false)
 
   // Error state
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
@@ -197,6 +205,9 @@ export function UserDataContextProvider({
     refreshing,
     exporting,
     updating,
+
+    // Real-time
+    realtimeConnected,
 
     // Errors
     errorMsg,
