@@ -93,8 +93,7 @@ const handler: Handler = async (event: HandlerEvent) => {
       const connectionStartTime = Date.now()
 
       try {
-        const factory = new BankingProviderFactory()
-        const provider = factory.getProvider(connection.provider)
+        const provider = createBankingProvider(connection.provider)
 
         // Fetch transactions
         const endDate = new Date()
