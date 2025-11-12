@@ -1,8 +1,7 @@
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { NextRequest, NextResponse } from 'next/server'
+import { withTenantContext } from '@/lib/api-wrapper'
+import { requireTenantContext } from '@/lib/tenant-utils'
 import { prisma } from '@/lib/prisma'
-import { getTenantFromRequest } from '@/lib/tenant'
 import { logAuditSafe } from '@/lib/observability-helpers'
 import { esignService } from '@/lib/esign/esign-service'
 import { z } from 'zod'
@@ -21,18 +20,17 @@ const InitiateSigningSchema = z.object({
   callbackUrl: z.string().url().optional(),
 })
 
-export async function POST(
+async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const { userId, userEmail, userName, tenantId } = requireTenantContext()
 
-    if (!session?.user?.id || !session.user.email) {
+    if (!userId || !userEmail) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const tenantId = await getTenantFromRequest(request)
     if (!tenantId) {
       return NextResponse.json({ error: 'Tenant context required' }, { status: 400 })
     }
@@ -76,8 +74,8 @@ export async function POST(
       documentUrl: document.url,
       fileName: document.name || 'document.pdf',
       signers: validated.signers,
-      requesterEmail: session.user.email,
-      requesterName: session.user.name || 'User',
+      requesterEmail: userEmail,
+      requesterName: userName || 'User',
       callbackUrl: validated.callbackUrl,
       expirationDays: validated.expirationDays,
     })
@@ -91,7 +89,7 @@ export async function POST(
       signers: JSON.stringify(signingSession.signers),
       expiresAt: signingSession.expiresAt,
       signingUrl: signingSession.signingUrl,
-      createdBy: session.user.id,
+      createdBy: userId,
       tenantId,
     }
 
@@ -139,18 +137,17 @@ export async function POST(
   }
 }
 
-export async function GET(
+async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const { userId, tenantId } = requireTenantContext()
 
-    if (!session?.user?.id) {
+    if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const tenantId = await getTenantFromRequest(request)
     if (!tenantId) {
       return NextResponse.json({ error: 'Tenant context required' }, { status: 400 })
     }
