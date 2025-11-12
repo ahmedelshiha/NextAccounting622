@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS "entity_audit_logs" (
   "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   CONSTRAINT "entity_audit_logs_entityId_fkey" FOREIGN KEY ("entityId") REFERENCES "entities"("id") ON DELETE CASCADE,
-  CONSTRAINT "entity_audit_logs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id")
+  CONSTRAINT "entity_audit_logs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id")
 );
 
 CREATE INDEX "entity_audit_logs_entityId_idx" ON "entity_audit_logs"("entityId");
