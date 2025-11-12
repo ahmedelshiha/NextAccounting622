@@ -8,6 +8,8 @@ import { useSession } from 'next-auth/react'
 import LogoutButton from '@/components/ui/LogoutButton'
 import { Menu, X, User, LogOut, Settings, Calendar, Bell } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { LanguageToggle } from '@/components/ui/LanguageToggle'
+import { localeConfig, type Locale } from '@/lib/i18n'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,7 +69,15 @@ function ClientNotificationsList() {
 
 import { useOrgSettings } from '@/components/providers/SettingsProvider'
 
-export function Navigation({ orgName = 'Accounting Firm', orgLogoUrl }: { orgName?: string; orgLogoUrl?: string }) {
+export function Navigation({
+  orgName = 'Accounting Firm',
+  orgLogoUrl,
+  currentLocale = 'en'
+}: {
+  orgName?: string
+  orgLogoUrl?: string
+  currentLocale?: Locale
+}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const { data: session, status } = useSession()
@@ -128,6 +138,9 @@ export function Navigation({ orgName = 'Accounting Firm', orgLogoUrl }: { orgNam
 
           {/* Desktop Auth & CTA */}
           <div className="hidden md:flex md:items-center md:space-x-4">
+            {/* Language Toggle */}
+            <LanguageToggle currentLocale={currentLocale} />
+
             {status === 'loading' ? (
               <div className="h-8 w-20 bg-gray-200 animate-pulse rounded"></div>
             ) : session ? (
@@ -224,8 +237,9 @@ export function Navigation({ orgName = 'Accounting Firm', orgLogoUrl }: { orgNam
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+          {/* Mobile language toggle and menu button */}
+          <div className="md:hidden flex items-center space-x-2">
+            <LanguageToggle currentLocale={currentLocale} size="icon" />
             <Button
               variant="ghost"
               size="sm"
