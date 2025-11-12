@@ -2587,3 +2587,36 @@ model ExportScheduleExecution {
   @@index([executedAt])
   @@map("export_schedule_executions")
 }
+
+// Phase 7: Tax Workflows
+model TaxFiling {
+  id                String                        @id @default(cuid())
+  tenantId          String
+  entityId          String
+  country           String                        @db.VarChar(3) // AE, SA, EG
+  taxType           String                        @db.VarChar(50) // VAT, CORPORATE_TAX, ZAKAT, WHT, ESR, UBO, ETA, E_RECEIPT
+  periodStartDate   DateTime
+  periodEndDate     DateTime
+  status            String                        @default("DRAFT") // DRAFT, SUBMITTED, ACCEPTED, REJECTED, AMENDED
+  data              String                        @db.Text // JSON stringified filing data
+  calculations      String                        @db.Text // JSON stringified TaxCalculations
+  taxAmount         Decimal                       @db.Decimal(19, 4) // Calculated tax amount
+  attachmentIds     String[]                      @default([]) // Document IDs
+  submittedAt       DateTime?
+  submittedBy       String?
+  rejectionReason   String?
+  metadata          String?                       @db.Text // JSON additional metadata
+  createdAt         DateTime                      @default(now())
+  updatedAt         DateTime                      @updatedAt
+
+  // Relations
+  tenant            Tenant                        @relation("TaxFilings", fields: [tenantId], references: [id], onDelete: Cascade)
+  entity            Entity                        @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, country, taxType])
+  @@index([tenantId, status])
+  @@index([entityId])
+  @@index([periodStartDate, periodEndDate])
+  @@index([submittedAt])
+  @@map("tax_filings")
+}
