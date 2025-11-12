@@ -90,13 +90,24 @@ Epic: FND-0 Foundations hardening
 - ✅ Acceptance: All tests passing; AR/EN working; RLS/RBAC functional
 
 ## Phase 1 — Entities & People
+**Status: ⚠️ IN PROGRESS (75% complete)**
+
 Epic: ENT-1 Entity & People management
-- TCK-1.1 Entity domain
-  - prisma migration: entities, registrations, economic_zones; services at src/services/admin-settings.service.ts.
-- TCK-1.2 People invitations & 2FA
-  - Flows in src/app/register, src/app/login; 2FA toggles in UserProfile; tests.
-- TCK-1.3 Search & bulk import
-  - Server search endpoint; CSV importer with validation; UI in /admin.
+- ✅ TCK-1.1 Entity domain
+  - ✅ Prisma schema: Entity, EntityLicense, EntityRegistration, EconomicZone, Obligation, FilingPeriod, Consent models
+  - ✅ Services layer: src/services/entities/index.ts with full CRUD + validation (565 lines)
+  - ✅ API routes: GET/POST/PATCH/DELETE for entities, registrations, setup, audit-history
+
+- ✅ TCK-1.3 Admin UI for Entity Management
+  - ✅ List page: src/app/admin/entities/page.tsx with search, filters, country/status views
+  - ✅ Detail/Edit: src/app/admin/entities/[id]/page.tsx with tabs for registrations, licenses, obligations
+  - ✅ Create: src/app/admin/entities/new/page.tsx with country-specific forms
+
+- ❌ TCK-1.2 People invitations & 2FA
+  - Flows in src/app/register, src/app/login; 2FA toggles in UserProfile; tests. (PENDING)
+
+- ❌ TCK-1.5 Search & bulk import
+  - CSV importer with validation; UI in /admin. (PENDING)
 
 ### Phase 1.1 — Business Account Setup Wizard (Modal)
 Epic: ENT-1.1 Setup wizard
