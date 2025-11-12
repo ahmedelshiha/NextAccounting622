@@ -4,7 +4,7 @@ import { requireTenantContext } from '@/lib/tenant-utils'
 import prisma from '@/lib/prisma'
 import { logAuditSafe } from '@/lib/observability-helpers'
 
-async function GET(
+async function _GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
@@ -73,4 +73,4 @@ async function GET(
   }
 }
 
-export default withTenantContext(GET, { requireAuth: true })
+export const GET = withTenantContext(_GET, { requireAuth: true })
