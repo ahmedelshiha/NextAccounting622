@@ -119,8 +119,8 @@ export async function matchTransactionsToInvoices(
           },
           select: {
             id: true,
-            totalAmount: true,
-            description: true,
+            totalCents: true,
+            number: true,
           },
         })
 
@@ -131,8 +131,8 @@ export async function matchTransactionsToInvoices(
         for (const invoice of invoices) {
           let score = 0
 
-          // Amount match (primary criteria)
-          const invoiceAmount = Number(invoice.totalAmount)
+          // Amount match (primary criteria) - totalCents is stored in cents
+          const invoiceAmount = Number(invoice.totalCents) / 100
           const amountDiff = Math.abs(txnAmount - invoiceAmount)
 
           if (amountDiff <= criteria.amountTolerance) {
