@@ -155,6 +155,10 @@ export const POST = withTenantContext(
     try {
       const { userId, tenantId } = requireTenantContext()
 
+      if (!userId || !tenantId) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      }
+
       const body = await request.json()
       const validated = CreateArticleSchema.parse(body)
 
