@@ -70,6 +70,13 @@ export const GET = withTenantContext(
     try {
       const { tenantId } = requireTenantContext();
 
+      if (!tenantId) {
+        return NextResponse.json(
+          { error: 'Unauthorized' },
+          { status: 401 }
+        );
+      }
+
       const status = request.nextUrl.searchParams.get('status');
 
       const invitations = await invitationService.listInvitations(

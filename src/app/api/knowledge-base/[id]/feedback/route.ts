@@ -13,6 +13,11 @@ export const POST = withTenantContext(
     try {
       const { userId, tenantId } = requireTenantContext()
       const { id } = params
+
+      if (!id || !tenantId) {
+        return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+      }
+
       const body = await request.json()
       const validated = FeedbackSchema.parse(body)
 
