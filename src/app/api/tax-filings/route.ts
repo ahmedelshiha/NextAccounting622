@@ -14,7 +14,7 @@ const CreateFilingSchema = z.object({
   taxType: z.enum(['VAT', 'CORPORATE_TAX', 'ZAKAT', 'WHT', 'ESR', 'UBO', 'ETA', 'E_RECEIPT']),
   periodStartDate: z.string().datetime(),
   periodEndDate: z.string().datetime(),
-  data: z.record(z.any()),
+  data: z.record(z.string(), z.any()),
 })
 
 const FilterSchema = z.object({
