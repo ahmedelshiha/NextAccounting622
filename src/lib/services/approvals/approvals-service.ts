@@ -5,11 +5,13 @@
 
 import prisma from "@/lib/prisma";
 import { logger } from "@/lib/logger";
+import {
+  ApprovalStatus,
+} from "@/types/approvals";
 import type {
   Approval,
   ApprovalFilters,
   ApprovalStats,
-  ApprovalStatus,
   ApprovalItemType,
 } from "@/types/approvals";
 
@@ -199,7 +201,7 @@ export class ApprovalsService {
       throw new Error("You are not authorized to approve this item");
     }
 
-    if (existingApproval.status !== "PENDING") {
+    if (existingApproval.status !== ApprovalStatus.PENDING) {
       throw new Error("This approval has already been processed");
     }
 
@@ -207,7 +209,7 @@ export class ApprovalsService {
     const approval = await prisma.approval.update({
       where: { id: approvalId },
       data: {
-        status: "APPROVED",
+        status: ApprovalStatus.APPROVED,
         decision: "APPROVED",
         decisionAt: new Date(),
         decisionBy: userId,
@@ -238,8 +240,8 @@ export class ApprovalsService {
         tenantId,
         action: "APPROVED",
         performedBy: userId,
-        fromStatus: "PENDING",
-        toStatus: "APPROVED",
+        fromStatus: ApprovalStatus.PENDING,
+        toStatus: ApprovalStatus.APPROVED,
         notes,
       },
     });
@@ -283,7 +285,7 @@ export class ApprovalsService {
       throw new Error("You are not authorized to reject this item");
     }
 
-    if (existingApproval.status !== "PENDING") {
+    if (existingApproval.status !== ApprovalStatus.PENDING) {
       throw new Error("This approval has already been processed");
     }
 
@@ -291,7 +293,7 @@ export class ApprovalsService {
     const approval = await prisma.approval.update({
       where: { id: approvalId },
       data: {
-        status: "REJECTED",
+        status: ApprovalStatus.REJECTED,
         decision: "REJECTED",
         decisionAt: new Date(),
         decisionBy: userId,
@@ -322,8 +324,8 @@ export class ApprovalsService {
         tenantId,
         action: "REJECTED",
         performedBy: userId,
-        fromStatus: "PENDING",
-        toStatus: "REJECTED",
+        fromStatus: ApprovalStatus.PENDING,
+        toStatus: ApprovalStatus.REJECTED,
         notes,
       },
     });
@@ -490,10 +492,10 @@ export class ApprovalsService {
 
     approvals.forEach((approval) => {
       // Status counts
-      if (approval.status === "PENDING") stats.pending++;
-      else if (approval.status === "APPROVED") stats.approved++;
-      else if (approval.status === "REJECTED") stats.rejected++;
-      else if (approval.status === "EXPIRED") stats.expired++;
+      if (approval.status === ApprovalStatus.PENDING) stats.pending++;
+      else if (approval.status === ApprovalStatus.APPROVED) stats.approved++;
+      else if (approval.status === ApprovalStatus.REJECTED) stats.rejected++;
+      else if (approval.status === ApprovalStatus.EXPIRED) stats.expired++;
 
       // By type
       if (!stats.byType[approval.itemType]) {
@@ -508,7 +510,7 @@ export class ApprovalsService {
       stats.byPriority[approval.priority]++;
 
       // Approval time
-      if (approval.decisionAt && approval.status === "APPROVED") {
+      if (approval.decisionAt && approval.status === ApprovalStatus.APPROVED) {
         const timeDiff =
           new Date(approval.decisionAt).getTime() -
           new Date(approval.requestedAt).getTime();
